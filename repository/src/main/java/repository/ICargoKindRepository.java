@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ICargoKindRepository extends JpaRepository<CargoKind,Long> {
+
+    CargoKind findByName(String name);
 }

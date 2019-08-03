@@ -8,6 +8,7 @@ import repository.ICargoKindRepository;
 import repository.ICargoRepository;
 import repository.IPalletRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -17,7 +18,9 @@ public class CargoMapper implements Mapper<CargoDto, Cargo> {
 
     private final ICargoRepository cargoRepository;
 
+
     private final IPalletRepository palletRepository;
+
 
     private final ICargoKindRepository cargoKindRepository;
 
@@ -30,16 +33,18 @@ public class CargoMapper implements Mapper<CargoDto, Cargo> {
 
     @Override
     public Cargo convertDtoToEntity(CargoDto cargoDto) {
+
         Optional<Cargo> cargo = cargoRepository.findById((Long.parseLong(cargoDto.getId())));
-        if(cargo.isPresent()){
-            cargo.get().setQuantity(Long.parseLong(cargoDto.getQuantity()));
-            cargo.get().setUpdateDate(LocalDateTime.now());
-            cargo.get().setPallet(palletRepository.findById(Long.parseLong(cargoDto.getPalletId())).get());
-            cargo.get().setCargoKind(cargoKindRepository.findByName(cargoDto.getName()));
 
-
+        cargo.get().setQuantity(Long.parseLong(cargoDto.getQuantity()));
+        if (cargo.get().getCreateDate() == null) {
+            cargo.get().setCreateDate(LocalDate.now());
         }
-        return null;
+        cargo.get().setUpdateDate(LocalDateTime.now());
+        cargo.get().setPallet(palletRepository.findById(Long.parseLong(cargoDto.getPalletId())).get());
+        cargo.get().setCargoKind(cargoKindRepository.findByName(cargoDto.getName()));
+
+        return cargo.get();
     }
 
     @Override

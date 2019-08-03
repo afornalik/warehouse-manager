@@ -23,7 +23,8 @@ public class CargoController {
     @RequestMapping(value = "/cargo/getall",method = RequestMethod.GET,produces = "application/json")
     public ResponseEntity getAllCargo(){
         try {
-            return new ResponseEntity(cargoService.getAllCargo(), HttpStatus.OK);
+           // return new ResponseEntity(cargoService.getAllCargo(), HttpStatus.OK);
+            return null;
         }catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
